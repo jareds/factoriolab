@@ -498,6 +498,7 @@
     "beltTooltip": "Click to select belt",
     "beltsUndoTooltip": "Undo all belt modifications",
     "inserterTooltip": "Click to select inserter",
+    "inserterCountTooltip": "Note: Inserter count is based on chest to chest throughput, it does not account for belt speed",
     "checked": "Step checked",
     "checkedUndoTooltip": "Undo all checkmarks",
     "downloadAsCsv": "Download as CSV",

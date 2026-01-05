@@ -8,7 +8,10 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowRightLong,
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 import { Icon } from '~/components/icon/icon';
 import { Select } from '~/components/select/select';
@@ -77,6 +80,7 @@ export class DetailRow {
   protected readonly cols = this.settingsStore.columnsState;
   protected readonly data = this.settingsStore.dataset;
   protected readonly faArrowRightLong = faArrowRightLong;
+  protected readonly faInfoCircle = faInfoCircle;
   protected readonly rational = rational;
 
   protected readonly machineIdSpan = computed(() => {

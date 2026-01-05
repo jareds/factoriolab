@@ -87,10 +87,13 @@
 @if (data().inserterIds.length) {
   <td class="pe-0">
     @if (inserterCount(); as count) {
-      <div class="flex items-center justify-end">
-        <span class="font-mono whitespace-pre">{{
-          count.div(factor()) | rate: cols().items.precision
-        }}</span>
+      <div
+        class="flex items-center justify-end"
+        labTooltip="steps.inserterCountTooltip"
+      >
+        <span class="font-mono whitespace-pre"
+          >{{ count.div(factor()) | rate: cols().items.precision }}*</span
+        >
       </div>
     }
   </td>
