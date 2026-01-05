@@ -24,9 +24,8 @@
     }
   }
 
-  <ng-template>
+  <ng-template #overlay>
     <lab-modules
-      overlay
       [(value)]="editValue"
       [entity]="machine()"
       [recipeId]="recipeId()"

@@ -1950,6 +1950,8 @@ async function processMod(): Promise<void> {
             locations,
           };
 
+          if (resource.infinite) recipe.flags?.push('infinite');
+
           const hash = JSON.stringify(recipe);
           if (resourceHash.has(hash)) {
             modDataReport.resourceDuplicate.push(key);

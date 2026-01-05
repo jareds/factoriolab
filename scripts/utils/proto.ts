@@ -50,13 +50,6 @@ export function getInserter(proto: M.InserterPrototype): InserterJson {
   );
   const rotationsPerSec = ticksPerRotation.reciprocal().mul(rational(60n));
   const degreesPerSec = rotationsPerSec.mul(rational(360n));
-
-  console.log(
-    proto.rotation_speed,
-    ticksPerRotation.toLocaleString(),
-    rotationsPerSec.toLocaleString(),
-    degreesPerSec.toLocaleString(),
-  );
   const inserter: InserterJson = {
     speed: degreesPerSec.toString(),
     stack: proto.stack_size_bonus,

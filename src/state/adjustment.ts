@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { EnergyType } from '~/data/schema/energy-type';
 import { AdjustedInserter } from '~/data/schema/inserter';
-import { Machine, PUMPJACK } from '~/data/schema/machine';
+import { Machine } from '~/data/schema/machine';
 import {
   effectPrecision,
   effects,
@@ -337,7 +337,7 @@ export class Adjustment {
 
       // Pollution
       recipe.pollution =
-        machine.pollution && recipeState.machineId !== PUMPJACK
+        machine.pollution && !recipe.flags.has('infinite')
           ? machine.pollution
               .div(this.pollutionFactor)
               .mul(eff.pollution)

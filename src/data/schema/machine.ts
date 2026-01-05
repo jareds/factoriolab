@@ -5,9 +5,6 @@ import { EnergyType } from './energy-type';
 import { ModuleEffect } from './module';
 import { parseSilo, Silo, SiloJson } from './silo';
 
-/** TODO: Find a better way to determine percent-based machines / recipes */
-export const PUMPJACK = 'pumpjack';
-
 // Should map to values in the machine `entityType` field
 export const typeHasCraftingSpeed = new Set([
   'assembling-machine',

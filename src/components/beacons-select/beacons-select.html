@@ -49,8 +49,8 @@
     }
   }
 
-  <ng-template>
-    <div overlay class="flex w-3xs flex-col gap-2">
+  <ng-template #overlay>
+    <div class="flex w-3xs flex-col gap-2">
       <div class="flex flex-col gap-1">
         @for (beacon of editValue(); track $index) {
           <div class="flex flex-col">

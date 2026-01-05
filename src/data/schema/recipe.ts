@@ -12,7 +12,8 @@ export type RecipeFlag =
   | 'grow'
   | 'recycling'
   | 'locked'
-  | 'hideProducer';
+  | 'hideProducer'
+  | 'infinite';
 
 export interface RecipeJson {
   id: string;

@@ -430,13 +430,21 @@
         @if (step.recipeSettings?.machineId; as machineId) {
           <td class="pe-0">
             @if (
+              step.recipeId &&
               step.machines &&
               step.machines.nonzero() &&
               !data().machineRecord[machineId].hideRate
             ) {
-              <span class="flex justify-end font-mono whitespace-pre">{{
-                step.machines | rate: cols().machines.precision
-              }}</span>
+              <span class="flex justify-end font-mono whitespace-pre">
+                @if (
+                  step.recipeId &&
+                  data().recipeRecord[step.recipeId].flags.has('infinite')
+                ) {
+                  {{ step.machines | rate: -2 }}%
+                } @else {
+                  {{ step.machines | rate: cols().machines.precision }}
+                }
+              </span>
             }
           </td>
           <td>
