@@ -162,7 +162,7 @@ export class Normalization {
     } else if (step.itemId != null) {
       const itemSettings = itemsState[step.itemId];
       const belt = itemSettings.beltId;
-      if (step.items != null && belt != null) {
+      if (step.items != null && belt) {
         step.belts = step.items.div(beltSpeed[belt]);
 
         if (itemSettings.stack?.nonzero())
@@ -170,7 +170,7 @@ export class Normalization {
       }
 
       const wagon = itemSettings.wagonId;
-      if (step.items != null && wagon != null) {
+      if (step.items != null && wagon) {
         const item = data.itemRecord[step.itemId];
         if (item.stack) {
           step.wagons = step.items.div(

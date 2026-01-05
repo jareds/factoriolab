@@ -237,15 +237,18 @@ export class SettingsStore extends Store<SettingsState> {
       belts: itemOptions(data.beltIds, {
         exclude: data.itemQIds,
         tooltipType: 'belt',
+        empty: true,
       }),
-      pipes: itemOptions(data.pipeIds, { tooltipType: 'pipe' }),
+      pipes: itemOptions(data.pipeIds, { tooltipType: 'pipe', empty: true }),
       cargoWagons: itemOptions(data.cargoWagonIds, {
         exclude: data.itemQIds,
         tooltipType: 'wagon',
+        empty: true,
       }),
       fluidWagons: itemOptions(data.fluidWagonIds, {
         exclude: data.itemQIds,
         tooltipType: 'wagon',
+        empty: true,
       }),
       inserters: itemOptions(data.inserterIds, { tooltipType: 'inserter' }),
       fuels: itemOptions(data.fuelIds, {
@@ -984,6 +987,7 @@ export class SettingsStore extends Store<SettingsState> {
       defaultId: string | undefined,
     ): string | undefined {
       itemId = coalesce(itemId, defaultId);
+      if (itemId === '') return itemId;
       if (!itemId || !availableItemIds.has(itemId)) return undefined;
       return itemId;
     }

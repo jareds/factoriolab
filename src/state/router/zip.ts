@@ -21,6 +21,7 @@ export class Zip {
   }
 
   zipString(value: string | undefined): string {
+    if (value === '') return ZEMPTY;
     return value ?? '';
   }
 
@@ -37,7 +38,9 @@ export class Zip {
   }
 
   zipNString(value: string | undefined, hash: (string | null)[]): string {
-    return value == null ? '' : this.compression.nToId(hash.indexOf(value));
+    if (value == null) return '';
+    if (value === '') return ZEMPTY;
+    return this.compression.nToId(hash.indexOf(value));
   }
 
   zipDiffSubset(
@@ -51,6 +54,7 @@ export class Zip {
       (init != null && Array.from(value).every((v) => init.has(v)))
     )
       return '';
+
     if (value.size === 0) return ZEMPTY;
 
     const allSet = new Set(all);
@@ -86,6 +90,7 @@ export class Zip {
     hash?: (string | null)[],
   ): string | [string, string] {
     if (value === init || value == null) return '';
+    if (value === '') return ZEMPTY;
     if (hash == null) return value;
     return [value, this.compression.nToId(hash.indexOf(value))];
   }
@@ -139,6 +144,7 @@ export class Zip {
     value: string | undefined,
     hash?: (string | null)[],
   ): string | undefined {
+    if (value === ZEMPTY) return '';
     if (hash != null) return this.parseNString(value, hash);
     if (!value?.length) return undefined;
     return value;
@@ -184,6 +190,7 @@ export class Zip {
     value: string | undefined,
     hash: (string | null)[],
   ): string | undefined {
+    if (value === ZEMPTY) return '';
     const v = this.parseString(value);
     if (v == null) return v;
     return hash[this.compression.idToN(v)] ?? undefined;

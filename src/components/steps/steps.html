@@ -291,17 +291,23 @@
           </td>
           <td>
             @if (step.itemId && items()[step.itemId]; as itemSettings) {
-              @if (itemSettings.beltId; as beltId) {
+              @let beltId = itemSettings.beltId;
+              @if (beltId != null) {
                 <div class="flex items-center">
                   @if (
-                    data().beltIds.includes(beltId)
-                      ? 'belt'
-                      : data().pipeIds.includes(beltId)
-                        ? 'pipe'
-                        : null;
-                    as type
+                    beltId !== '' &&
+                    !data().beltIds.includes(beltId) &&
+                    !data().pipeIds.includes(beltId)
                   ) {
+                    <lab-icon
+                      [value]="beltId"
+                      type="item"
+                      [labTooltip]="beltId"
+                      labTooltipType="pipe"
+                    ></lab-icon>
+                  } @else {
                     @let stack = data().itemRecord[step.itemId].stack;
+                    @let type = stack ? 'belt' : 'pipe';
                     @if (
                       data().flags.has('beltStack') &&
                       stack &&
@@ -309,9 +315,11 @@
                     ) {
                       <lab-belt-select
                         [stack]="stack"
-                        [labTooltip]="itemSettings.beltId"
-                        labTooltipType="belt"
-                        labTooltipAction="steps.beltSelectTooltip"
+                        [labTooltip]="beltId || 'steps.beltSelectTooltip'"
+                        [labTooltipType]="beltId ? 'belt' : undefined"
+                        [labTooltipAction]="
+                          beltId ? 'steps.beltSelectTooltip' : undefined
+                        "
                         labTooltipPosition="adjacent"
                         [attr.aria-label]="
                           'steps.beltSelectTooltip' | translate
@@ -320,6 +328,7 @@
                         (valueChange)="changeBelts(step, $event)"
                       ></lab-belt-select>
                     } @else {
+                      @let tooltip = 'steps.' + type + 'Tooltip';
                       <lab-select
                         [iconOnly]="true"
                         [border]="false"
@@ -328,11 +337,11 @@
                             type === 'belt' ? 'belts' : 'pipes'
                           ]
                         "
-                        [labTooltip]="beltId"
-                        labTooltipType="belt"
-                        labTooltipAction="steps.beltTooltip"
+                        [labTooltip]="beltId || tooltip"
+                        [labTooltipType]="beltId ? 'belt' : undefined"
+                        [labTooltipAction]="beltId ? tooltip : undefined"
                         labTooltipPosition="adjacent"
-                        [attr.aria-label]="'steps.beltTooltip' | translate"
+                        [attr.aria-label]="tooltip | translate"
                         [ngModel]="beltId"
                         (ngModelChange)="
                           itemsStore.updateRecordField(
@@ -344,13 +353,6 @@
                         "
                       ></lab-select>
                     }
-                  } @else {
-                    <lab-icon
-                      [value]="beltId"
-                      type="item"
-                      [labTooltip]="beltId"
-                      labTooltipType="pipe"
-                    ></lab-icon>
                   }
                 </div>
               }
@@ -368,40 +370,38 @@
           </td>
           <td>
             @if (step.itemId && items()[step.itemId]; as itemSettings) {
-              @if (itemSettings.wagonId; as wagonId) {
-                <div class="flex">
-                  @if (
-                    data().cargoWagonIds.includes(wagonId)
+              @let wagonId = itemSettings.wagonId;
+              @if (wagonId != null) {
+                <div class="flex items-center">
+                  @let type =
+                    data().itemRecord[step.itemId].stack
                       ? 'cargo-wagon'
-                      : data().fluidWagonIds.includes(wagonId)
-                        ? 'fluid-wagon'
-                        : null;
-                    as type
-                  ) {
-                    <lab-select
-                      [iconOnly]="true"
-                      [border]="false"
-                      [options]="
-                        settingsStore.options()[
-                          type === 'cargo-wagon' ? 'cargoWagons' : 'fluidWagons'
-                        ]
-                      "
-                      [labTooltip]="wagonId"
-                      labTooltipType="wagon"
-                      labTooltipAction="steps.wagonTooltip"
-                      labTooltipPosition="adjacent"
-                      [attr.aria-label]="'steps.wagonTooltip' | translate"
-                      [ngModel]="wagonId"
-                      (ngModelChange)="
-                        itemsStore.updateRecordField(
-                          step.itemId,
-                          'wagonId',
-                          $event,
-                          itemSettings.defaultWagonId
-                        )
-                      "
-                    ></lab-select>
-                  }
+                      : 'fluid-wagon';
+                  <lab-select
+                    [iconOnly]="true"
+                    [border]="false"
+                    [options]="
+                      settingsStore.options()[
+                        type === 'cargo-wagon' ? 'cargoWagons' : 'fluidWagons'
+                      ]
+                    "
+                    [labTooltip]="wagonId || 'steps.wagonTooltip'"
+                    [labTooltipType]="wagonId ? 'wagon' : undefined"
+                    [labTooltipAction]="
+                      wagonId ? 'steps.wagonTooltip' : undefined
+                    "
+                    labTooltipPosition="adjacent"
+                    [attr.aria-label]="'steps.wagonTooltip' | translate"
+                    [ngModel]="wagonId"
+                    (ngModelChange)="
+                      itemsStore.updateRecordField(
+                        step.itemId,
+                        'wagonId',
+                        $event,
+                        itemSettings.defaultWagonId
+                      )
+                    "
+                  ></lab-select>
                 </div>
               }
             }

@@ -58,7 +58,7 @@ export class ItemsStore extends RecordStore<ItemState> {
 
   defaultBelt(item: Item, settings: Settings): string | undefined {
     if (item.stack) return settings.beltId;
-    else if (settings.pipeId) return settings.pipeId;
+    else if (settings.pipeId != null) return settings.pipeId;
     else return PIPE;
   }
 

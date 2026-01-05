@@ -496,6 +496,7 @@
     "beaconsUndoTooltip": "Undo all beacon modifications",
     "beltSelectTooltip": "Click to select belt and stack size",
     "beltTooltip": "Click to select belt",
+    "pipeTooltip": "Click to select pipe",
     "beltsUndoTooltip": "Undo all belt modifications",
     "inserterTooltip": "Click to select inserter",
     "inserterCountTooltip": "Note: Inserter count is based on chest to chest throughput, and does not account for belt speed",

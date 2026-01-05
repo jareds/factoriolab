@@ -9,6 +9,7 @@
       <lab-icon
         [value]="_selectedOption.icon"
         [type]="_selectedOption.iconType"
+        [class]="_selectedOption.iconClass"
       ></lab-icon>
     }
   </span>
@@ -122,7 +123,11 @@
             }
 
             @if (opt.icon) {
-              <lab-icon [value]="opt.icon" [type]="opt.iconType"></lab-icon>
+              <lab-icon
+                [value]="opt.icon"
+                [type]="opt.iconType"
+                [class]="opt.iconClass"
+              ></lab-icon>
             }
             <span class="ms-1 line-clamp-1">{{ label }}</span>
           </li>

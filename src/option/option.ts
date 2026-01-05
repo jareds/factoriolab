@@ -8,6 +8,7 @@ export interface Option<T = string> {
   value: T;
   icon?: string | IconDefinition;
   iconType?: IconType;
+  iconClass?: string;
   tooltip?: string;
   tooltipType?: TooltipType;
   disabled?: boolean;
@@ -19,6 +20,7 @@ export interface OptionParams {
   include?: Set<string>;
   exclude?: Set<string>;
   emptyModule?: boolean;
+  empty?: boolean;
 }
 
 export function getIdOptions(
@@ -26,7 +28,7 @@ export function getIdOptions(
   record: Record<string, { name: string }>,
   params?: OptionParams,
 ): Option[] {
-  const { iconType, tooltipType, include, exclude, emptyModule } = {
+  const { iconType, tooltipType, include, exclude, emptyModule, empty } = {
     ...params,
   };
 
@@ -53,6 +55,14 @@ export function getIdOptions(
       label: 'none',
       value: '',
       icon: 'module',
+    });
+
+  if (empty)
+    list.unshift({
+      label: 'none',
+      value: '',
+      icon: ids[0],
+      iconClass: 'opacity-40 grayscale',
     });
 
   return list;
