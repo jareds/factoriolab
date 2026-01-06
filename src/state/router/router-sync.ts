@@ -734,6 +734,7 @@ export class RouterSync {
           this.zip.zipString(obj.beltId),
           this.zip.zipString(obj.wagonId),
           this.zip.zipRational(obj.stack),
+          this.zip.zipBool(obj.excludeRockets),
         ]),
       );
       data.config.hash.i.push(
@@ -742,6 +743,7 @@ export class RouterSync {
           this.zip.zipNString(obj.beltId, hash.belts),
           this.zip.zipNString(obj.wagonId, hash.wagons),
           this.zip.zipRational(obj.stack),
+          this.zip.zipBool(obj.excludeRockets),
         ]),
       );
     }
@@ -762,6 +764,7 @@ export class RouterSync {
         beltId: this.zip.parseString(s[i++], hash?.belts),
         wagonId: this.zip.parseString(s[i++], hash?.wagons),
         stack: this.zip.parseRational(s[i++]),
+        excludeRockets: this.zip.parseBool(s[i++]),
       };
 
       prune(obj);

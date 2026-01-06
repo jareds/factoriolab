@@ -15,6 +15,7 @@ import {
   faAngleRight,
   faArrowRotateLeft,
   faArrowUpRightFromSquare,
+  faEyeSlash,
   faFileArrowDown,
   faLink,
   faRotateLeft,
@@ -120,6 +121,7 @@ export class Steps {
   protected readonly faAngleRight = faAngleRight;
   protected readonly faArrowRotateLeft = faArrowRotateLeft;
   protected readonly faArrowUpRightFromSquare = faArrowUpRightFromSquare;
+  protected readonly faEyeSlash = faEyeSlash;
   protected readonly faFileArrowDown = faFileArrowDown;
   protected readonly faLink = faLink;
   protected readonly faRotateLeft = faRotateLeft;

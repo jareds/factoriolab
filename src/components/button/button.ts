@@ -124,7 +124,7 @@ export class Button {
   readonly rounded = input<Rounded>('all');
   readonly hide = input(false);
   readonly toggleIcon = input<IconDefinition>();
-  readonly toggled = input(false);
+  readonly toggled = input<boolean | undefined>(false);
   readonly disabled = input(false);
   readonly textAlign = input<'left' | 'center' | 'right'>('center');
   readonly textParams = input<TranslateParams>();

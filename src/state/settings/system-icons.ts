@@ -23,6 +23,7 @@ export const systemIcons: IconJson[] = [
   { id: 'techtonica', position: '-264px -198px', color: '' },
   { id: 'skyformer', position: '0 -264px', color: '' },
   { id: 'custom', position: '-66px -264px', color: '' },
+  { id: 'rocket-pod', position: '-132px -264px', color: '' },
 ];
 
 export const systemIconsRecord = toRecord(

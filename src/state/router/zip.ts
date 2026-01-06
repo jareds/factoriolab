@@ -43,6 +43,11 @@ export class Zip {
     return this.compression.nToId(hash.indexOf(value));
   }
 
+  zipBool(value: boolean | undefined): string {
+    if (value == null) return '';
+    return value ? ZTRUE : ZFALSE;
+  }
+
   zipDiffSubset(
     value: Set<string> | undefined,
     init: Set<string> | undefined,

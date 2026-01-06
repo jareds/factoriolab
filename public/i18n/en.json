@@ -507,6 +507,8 @@
     "excludeItemTooltip": "Click to exclude",
     "hideDetails": "Hide details",
     "includeItemTooltip": "Click to include",
+    "excludeRocketsTooltip": "Click to exclude rockets",
+    "includeRocketsTooltip": "Click to include rockets",
     "inputs": "Inputs",
     "itemsUndoTooltip": "Undo all excluded items",
     "machinesUndoTooltip": "Undo all machine modifications",

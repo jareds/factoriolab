@@ -42,6 +42,7 @@ export class ItemsStore extends RecordStore<ItemState> {
       const beltId = coalesce(s?.beltId, defaultBeltId);
       const stack = coalesce(s?.stack, defaultStack);
       const wagonId = coalesce(s?.wagonId, defaultWagonId);
+      const excludeRockets = s?.excludeRockets;
 
       value[item.id] = {
         beltId,
@@ -50,6 +51,7 @@ export class ItemsStore extends RecordStore<ItemState> {
         defaultStack,
         wagonId,
         defaultWagonId,
+        excludeRockets,
       };
     }
 

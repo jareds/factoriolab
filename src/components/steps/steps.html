@@ -417,9 +417,34 @@
             }
           </td>
           <td>
-            @if (step.rockets) {
+            @if (step.itemId && data().itemRecord[step.itemId].rocketCapacity) {
               <div class="flex items-center">
-                <lab-icon value="rocket-silo" type="item"></lab-icon>
+                @let excluded =
+                  itemsStore.settings()[step.itemId].excludeRockets;
+                @let tooltip =
+                  excluded
+                    ? 'steps.includeRocketsTooltip'
+                    : 'steps.excludeRocketsTooltip';
+                <button
+                  type="button"
+                  labButton
+                  class="bg-gray-950"
+                  icon="rocket-pod"
+                  [toggleIcon]="faEyeSlash"
+                  [toggled]="excluded"
+                  iconType="system"
+                  [border]="false"
+                  [labTooltip]="tooltip"
+                  labTooltipPosition="adjacent"
+                  [attr.aria-label]="tooltip | translate"
+                  (click)="
+                    itemsStore.updateRecordField(
+                      step.itemId,
+                      'excludeRockets',
+                      excluded ? undefined : true
+                    )
+                  "
+                ></button>
               </div>
             }
           </td>
@@ -741,7 +766,14 @@
           <td colspan="2" labTotalCell [value]="totals().wagons"></td>
         }
         @if (cols().rockets.show) {
-          <td colspan="2"></td>
+          <td>
+            <span class="flex justify-end font-mono whitespace-pre">{{
+              totals().rockets
+            }}</span>
+          </td>
+          <td class="ps-0">
+            <lab-icon value="rocket-pod"></lab-icon>
+          </td>
         }
         <td colspan="2"><!-- Inserters --></td>
         <td colspan="2" labTotalCell [value]="totals().machines"></td>

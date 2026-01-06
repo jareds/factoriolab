@@ -140,6 +140,7 @@ export class ObjectivesStore extends RecordStore<ObjectiveState> {
     const wagons: Record<string, TotalValue> = {};
     const machines: Record<string, TotalValue> = {};
     const beacons: Record<string, TotalValue> = {};
+    let rockets = rational.zero;
     let power = rational.zero;
     let pollution = rational.zero;
 
@@ -262,6 +263,9 @@ export class ObjectivesStore extends RecordStore<ObjectiveState> {
         }
       }
 
+      // Total rockets
+      if (step.rockets != null) rockets = rockets.add(step.rockets.ceil());
+
       // Total Power
       if (step.power != null) power = power.add(step.power);
 
@@ -274,6 +278,7 @@ export class ObjectivesStore extends RecordStore<ObjectiveState> {
       wagons,
       machines,
       beacons,
+      rockets,
       power,
       pollution,
     };
