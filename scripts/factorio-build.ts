@@ -1742,16 +1742,6 @@ async function processMod(): Promise<void> {
             })
             .map((l) => l.name);
 
-          const TREES_PER_TOWER = 46;
-          Object.keys(recipeOut).forEach((k) => {
-            recipeOut[k] *= TREES_PER_TOWER;
-          });
-          if (recipeCatalyst) {
-            Object.keys(recipeCatalyst).forEach((k) => {
-              recipeCatalyst[k] *= TREES_PER_TOWER;
-            });
-          }
-
           const recipe: RecipeJson = {
             id: plantProto.name,
             name,
@@ -1759,13 +1749,13 @@ async function processMod(): Promise<void> {
             row: getRecipeRow(plantProto),
             time,
             producers,
-            in: { [proto.name]: TREES_PER_TOWER },
+            in: { [proto.name]: 1 },
             out: recipeOut,
             catalyst: recipeCatalyst,
             cost: 100,
             icon,
             locations,
-            flags: ['grow'],
+            flags: ['hideProducer'],
           };
 
           modData.recipes.push(recipe);

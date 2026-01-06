@@ -126,7 +126,7 @@ export class Solver {
             break;
           }
           case ObjectiveType.Input: {
-            // Parse inputs and add them as though they were item objective inputs
+            // Parse outputs and add them as though they were item objective inputs
             for (const itemId of Object.keys(obj.recipe.out).filter((i) =>
               obj.recipe.produces.has(i),
             )) {

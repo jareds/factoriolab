@@ -729,8 +729,22 @@ export class ObjectivesStore extends RecordStore<ObjectiveState> {
   ): void {
     if (step.recipeObjectiveId) {
       this.updateRecordField(step.recipeObjectiveId, field, value, def);
+      if (field === 'machineId')
+        this.removeRecordFields(
+          step.recipeObjectiveId,
+          'modules',
+          'fuelId',
+          'beacons',
+        );
     } else if (step.recipeId) {
       this.recipesStore.updateRecordField(step.recipeId, field, value, def);
+      if (field === 'machineId')
+        this.recipesStore.removeRecordFields(
+          step.recipeId,
+          'modules',
+          'fuelId',
+          'beacons',
+        );
     }
   }
 

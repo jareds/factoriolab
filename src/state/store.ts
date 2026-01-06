@@ -132,6 +132,16 @@ export abstract class RecordStore<T extends object> extends Store<
     this.reduce((state) => this._updateField(state, id, field, value, def));
   }
 
+  removeRecordFields(id: string, ...fields: (keyof T)[]): void {
+    this.reduce((state) => {
+      const partial: Partial<T> = {};
+      fields.forEach((field) => {
+        partial[field] = undefined;
+      });
+      return this._updateRecord(state, id, partial);
+    });
+  }
+
   resetFields(...fields: (keyof T)[]): void {
     this.reduce((state) => this._resetFields(state, fields));
   }

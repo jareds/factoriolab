@@ -78,7 +78,7 @@ export function recipeHasQuality(
     !flags.has('mining') &&
     (!flags.has('technology') || Object.keys(recipe.in).length > 0) &&
     !flags.has('burn') &&
-    !flags.has('grow') &&
+    !flags.has('hideProducer') &&
     Object.keys(recipe.in).some((k) => itemData[k].stack)
   );
 }
