@@ -32,7 +32,8 @@
     "minify-data": "bun scripts/minify-data.ts",
     "sync-i18n": "bun scripts/sync-i18n.ts",
     "update-color": "bun scripts/update-color.ts",
-    "update-hash": "bun scripts/update-hash.ts"
+    "update-hash": "bun scripts/update-hash.ts",
+    "migrate": "bun scripts/migrate.ts"
   },
   "dependencies": {
     "@angular/cdk": "^21.0.2",
@@ -52,8 +53,10 @@
     "color-bits": "^1.1.1",
     "d3": "^7.9.0",
     "elkjs": "^0.11.0",
+    "fast-average-color": "^9.5.0",
     "file-saver": "^2.0.5",
     "glpk-ts": "^0.0.11",
+    "localforage": "^1.10.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "web-worker": "^1.5.0"

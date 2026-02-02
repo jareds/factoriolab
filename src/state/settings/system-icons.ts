@@ -1,40 +1,38 @@
-import { getViewBox, IconData, IconJson } from '~/data/schema/icon-data';
+import {
+  IconData,
+  IconJson,
+  parseIcon,
+  parseIconData,
+} from '~/data/schema/icon-data';
 import { toRecord } from '~/utils/record';
 
 export const systemIcons: IconJson[] = [
-  { id: 'transparent', position: '-66px 0', color: '' },
-  { id: 'module', position: '-132px 0', color: '#fff' },
-  { id: 'pipe', position: '-198px 0', color: '' },
-  { id: 'q-1', position: '-264px 0', color: '' },
-  { id: 'q0', position: '0 -66px', color: '' },
-  { id: 'q1', position: '-66px -66px', color: '' },
-  { id: 'q2', position: '-132px -66px', color: '' },
-  { id: 'q3', position: '-198px -66px', color: '' },
-  { id: 'q5', position: '-264px -66px', color: '' },
-  { id: 'captain-of-industry', position: '0 -132px', color: '' },
-  { id: 'dyson-sphere-program', position: '-66px -132px', color: '' },
-  { id: 'factor-y', position: '-132px -132px', color: '' },
-  { id: 'factorio', position: '-198px -132px', color: '' },
-  { id: 'final-factory', position: '-264px -132px', color: '' },
-  { id: 'foundry', position: '0 -198px', color: '' },
-  { id: 'mindustry', position: '-66px -198px', color: '' },
-  { id: 'outworld-station', position: '-132px -198px', color: '' },
-  { id: 'satisfactory', position: '-198px -198px', color: '' },
-  { id: 'techtonica', position: '-264px -198px', color: '' },
-  { id: 'skyformer', position: '0 -264px', color: '' },
-  { id: 'custom', position: '-66px -264px', color: '' },
-  { id: 'rocket-pod', position: '-132px -264px', color: '' },
+  { id: 'transparent', x: 66, y: 0 },
+  { id: 'module', x: 132, y: 0 },
+  { id: 'pipe', x: 198, y: 0 },
+  { id: 'q-1', x: 264, y: 0 },
+  { id: 'q0', x: 0, y: 66 },
+  { id: 'q1', x: 66, y: 66 },
+  { id: 'q2', x: 132, y: 66 },
+  { id: 'q3', x: 198, y: 66 },
+  { id: 'q5', x: 264, y: 66 },
+  { id: 'captain-of-industry', x: 0, y: 132 },
+  { id: 'dyson-sphere-program', x: 66, y: 132 },
+  { id: 'factor-y', x: 132, y: 132 },
+  { id: 'factorio', x: 198, y: 132 },
+  { id: 'final-factory', x: 264, y: 132 },
+  { id: 'foundry', x: 0, y: 198 },
+  { id: 'mindustry', x: 66, y: 198 },
+  { id: 'outworld-station', x: 132, y: 198 },
+  { id: 'satisfactory', x: 198, y: 198 },
+  { id: 'techtonica', x: 264, y: 198 },
+  { id: 'skyformer', x: 0, y: 264 },
+  { id: 'custom', x: 66, y: 264 },
+  { id: 'rocket-pod', x: 132, y: 264 },
 ];
 
 export const systemIconsRecord = toRecord(
   systemIcons.map(
-    (i): IconData => ({
-      ...i,
-      ...{
-        file: 'icons/icons.webp',
-        image: 'url("icons/icons.webp")',
-        viewBox: getViewBox(i.position),
-      },
-    }),
+    (i): IconData => parseIconData(parseIcon(i), 'icons/icons.webp'),
   ),
 );

@@ -33,7 +33,15 @@ export class FlowBuilder {
     const data = this.recipesStore.adjustedDataset();
     const suffixKey = displayRateInfo[settings.displayRate].suffix;
     const suffix = this.translate.get(suffixKey);
-    return this.buildGraph(steps, suffix, settings, preferences, data);
+    const iconColor = this.settingsStore.iconColor.value() ?? {};
+    return this.buildGraph(
+      steps,
+      suffix,
+      settings,
+      preferences,
+      iconColor,
+      data,
+    );
   });
 
   recipeStepNodeType(step: Step): string {
@@ -45,6 +53,7 @@ export class FlowBuilder {
     suffix: string,
     settings: Settings,
     preferences: PreferencesState,
+    iconColor: Record<string, string>,
     data: AdjustedDataset,
   ): FlowData {
     const itemPrec = preferences.columns.items.precision;
@@ -85,7 +94,7 @@ export class FlowBuilder {
           id,
           name: item.name,
           text: `${step.items.toLocaleString(itemPrec)}${suffix}`,
-          color: icon.color,
+          color: iconColor[icon.id],
           stepId: step.id,
           icon,
         });
@@ -107,7 +116,7 @@ export class FlowBuilder {
                 preferences.columns,
                 suffix,
               ),
-              color: icon.color,
+              color: iconColor[icon.id],
               value: this.linkSize(
                 stepValue[step.id],
                 step.parents[stepId],
@@ -139,7 +148,7 @@ export class FlowBuilder {
               preferences.columns,
               suffix,
             ),
-            color: icon.color,
+            color: iconColor[icon.id],
             value: this.linkSize(
               stepValue[step.id],
               percent,
@@ -170,7 +179,7 @@ export class FlowBuilder {
               preferences.columns,
               suffix,
             ),
-            color: icon.color,
+            color: iconColor[icon.id],
             value: this.linkSize(
               stepValue[step.id],
               percent,
@@ -191,7 +200,7 @@ export class FlowBuilder {
           id,
           name: recipe.name,
           text: step.machines.toLocaleString(machinePrec),
-          color: recipeIcon.color,
+          color: iconColor[recipeIcon.id],
           stepId: step.id,
           recipe,
           icon: machineIcon,
@@ -218,7 +227,7 @@ export class FlowBuilder {
                 preferences.columns,
                 suffix,
               ),
-              color: icon.color,
+              color: iconColor[icon.id],
               value: this.linkSize(
                 stepValue[itemStep.id],
                 step.outputs[itemId],

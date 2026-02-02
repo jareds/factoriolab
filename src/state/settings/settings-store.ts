@@ -1,7 +1,8 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { httpResource } from '@angular/common/http';
-import { computed, effect, inject, Injectable } from '@angular/core';
+import { computed, effect, inject, Injectable, resource } from '@angular/core';
 import { faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { FastAverageColor } from 'fast-average-color';
 
 import { CustomDataDialog } from '~/components/custom-data-dialog/custom-data-dialog';
 import { DEFAULT_MOD, modOptions, modRecord } from '~/data/datasets';
@@ -15,7 +16,12 @@ import { CargoWagon } from '~/data/schema/cargo-wagon';
 import { Category } from '~/data/schema/category';
 import { FluidWagon } from '~/data/schema/fluid-wagon';
 import { Fuel } from '~/data/schema/fuel';
-import { getViewBox, IconData, IconJson } from '~/data/schema/icon-data';
+import {
+  IconBase,
+  IconData,
+  parseIcon,
+  parseIconData,
+} from '~/data/schema/icon-data';
 import { Inserter } from '~/data/schema/inserter';
 import { Item, ItemJson, parseItem } from '~/data/schema/item';
 import { Machine, typeHasCraftingSpeed } from '~/data/schema/machine';
@@ -41,11 +47,11 @@ import { LinkOption } from '~/option/link-option';
 import { getIdOptions, Option, OptionParams } from '~/option/option';
 import { Rational, rational } from '~/rational/rational';
 import { emptyModHash, updateHash } from '~/utils/hash';
+import { localForageResource } from '~/utils/local-forage-resource';
 import { log } from '~/utils/log';
 import { coalesce, fnPropsNotNullish } from '~/utils/nullish';
 import { spread } from '~/utils/object';
 import { reduceRecord, toRecord } from '~/utils/record';
-import { storedSignal } from '~/utils/stored-signal';
 
 import { BeaconSettings } from '../beacon-settings';
 import { Hydration } from '../hydration';
@@ -70,9 +76,22 @@ export class SettingsStore extends Store<SettingsState> {
   private readonly hydration = inject(Hydration);
   private readonly preferencesStore = inject(PreferencesStore);
 
-  readonly customData = storedSignal('data');
-  readonly customHash = storedSignal('hash');
-  readonly customIcons = storedSignal('icons');
+  readonly customData = localForageResource<ModData>('data');
+  readonly customHash = localForageResource<ModHash>('hash');
+  readonly customIcons = localForageResource<File>('icons');
+
+  readonly customIconsUrl = computed(() => {
+    const file = this.customIcons.value();
+    if (file) {
+      try {
+        return URL.createObjectURL(file);
+      } catch {
+        return '';
+      }
+    }
+
+    return '';
+  });
 
   readonly modId = this.select('modId');
   readonly maximizeType = this.select('maximizeType');
@@ -104,11 +123,7 @@ export class SettingsStore extends Store<SettingsState> {
     const modId = this.modId();
     if (modId == null) return undefined;
 
-    if (modId === CUSTOM_MOD) {
-      const data = this.customData();
-      if (data == null) return undefined;
-      return JSON.parse(data) as ModData;
-    }
+    if (modId === CUSTOM_MOD) return this.customData.value() ?? undefined;
 
     if (this.modDataResource.error()) return undefined;
     return this.modDataResource.value();
@@ -118,11 +133,7 @@ export class SettingsStore extends Store<SettingsState> {
     const modId = this.modId();
     if (modId == null) return undefined;
 
-    if (modId === CUSTOM_MOD) {
-      const hash = this.customHash();
-      if (hash == null) return undefined;
-      return JSON.parse(hash) as ModHash;
-    }
+    if (modId === CUSTOM_MOD) return this.customHash.value() ?? undefined;
 
     if (this.modHashResource.error()) return undefined;
     return this.modHashResource.value();
@@ -176,6 +187,39 @@ export class SettingsStore extends Store<SettingsState> {
   readonly defaults = computed(() =>
     this.computeDefaults(this.modInfo(), this.modData(), this.preset()),
   );
+
+  readonly iconPath = computed(() => {
+    const info = this.modInfo();
+    const modId = coalesce(info?.id, DEFAULT_MOD);
+    if (modId === CUSTOM_MOD) return this.customIconsUrl();
+    return `data/${modId}/icons.webp`;
+  });
+
+  private readonly fac = new FastAverageColor();
+  readonly iconColor = resource({
+    params: () => ({ modData: this.modData(), iconPath: this.iconPath() }),
+    loader: async ({ params: { modData, iconPath } }) => {
+      if (modData == null || !iconPath) return {};
+      const img = document.createElement('img');
+      img.src = iconPath;
+
+      const colors = await Promise.all(
+        modData.icons.map(async (icon) => {
+          return await this.fac.getColorAsync(img, {
+            top: icon.y,
+            left: icon.x,
+            width: 64,
+            height: 64,
+          });
+        }),
+      );
+
+      return modData.icons.reduce<Record<string, string>>((a, b, i) => {
+        a[b.id] = colors[i].hex;
+        return a;
+      }, {});
+    },
+  });
 
   readonly dataset = computed(() =>
     this.computeDataset(
@@ -315,7 +359,7 @@ export class SettingsStore extends Store<SettingsState> {
       const modId = this.modId();
       if (modId) log('set_mod_id', modId);
 
-      if (modId === CUSTOM_MOD && this.customData() == null)
+      if (modId === CUSTOM_MOD && this.customData.value() == null)
         this.dialog.open(CustomDataDialog);
     });
 
@@ -326,15 +370,13 @@ export class SettingsStore extends Store<SettingsState> {
   }
 
   setCustomData(json: string): void {
-    this.customData.set(json);
     try {
       const data = JSON.parse(json) as ModData;
-      const hashJson = this.customHash();
-      const hash = hashJson
-        ? (JSON.parse(hashJson) as ModHash)
-        : emptyModHash();
+      this.customData.set(data);
+      const hashJson = this.customHash.value();
+      const hash = hashJson ?? emptyModHash();
       updateHash(data, hash);
-      this.customHash.set(JSON.stringify(hash));
+      this.customHash.set(hash);
     } catch {
       // Do nothing
     }
@@ -458,7 +500,9 @@ export class SettingsStore extends Store<SettingsState> {
   ): Dataset {
     // Map out records with mods
     const categoryRecord = toRecord(coalesce(data?.categories, []));
-    const iconData = toRecord(coalesce(data?.icons, []));
+    const iconData = toRecord(
+      coalesce(data?.icons, []).map((i) => parseIcon(i)),
+    );
     const itemData = toRecord(coalesce(data?.items, []));
     const recipeData = toRecord(coalesce(data?.recipes, []));
     const limitations = reduceRecord(coalesce(data?.limitations, {}));
@@ -788,22 +832,16 @@ export class SettingsStore extends Store<SettingsState> {
 
     const modId = coalesce(info?.id, DEFAULT_MOD);
     let file = `data/${modId}/icons.webp`;
-    if (modId === CUSTOM_MOD) file = coalesce(this.customIcons(), '');
-
-    const image = `url("${file}")`;
+    if (modId === CUSTOM_MOD) file = this.customIconsUrl();
 
     function toIconRecord(
       ids: string[],
-      rec: Record<string, Category | Item | Recipe | IconJson>,
+      rec: Record<string, Category | Item | Recipe | IconBase>,
     ): Record<string, IconData> {
       return ids.reduce<Record<string, IconData>>((e, i) => {
         const entity = rec[i];
         const id = coalesce((entity as Category | Item | Recipe).icon, i);
-        const icon = iconData[id];
-        const text = (entity as Category | Item | Recipe).iconText;
-        const quality = (entity as Item | Recipe).quality;
-        const viewBox = getViewBox(icon.position);
-        e[i] = { ...icon, file, image, viewBox, text, quality };
+        e[i] = parseIconData(iconData[id], file, entity);
         return e;
       }, {});
     }

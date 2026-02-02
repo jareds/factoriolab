@@ -25,6 +25,7 @@ export class ItemsStore extends RecordStore<ItemState> {
         (i) => state[i].beltId != null || state[i].stack != null,
       ),
       wagons: Object.keys(state).some((i) => state[i].wagonId != null),
+      rockets: Object.keys(state).some((i) => state[i].excludeRockets != null),
     };
   });
 

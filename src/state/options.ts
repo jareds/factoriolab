@@ -158,7 +158,8 @@ export class Options {
 
     if (machineValue) {
       const set = new Set(options.map((o) => o.value));
-      if (machineValue.every((m) => m.id && set.has(m.id))) return machineValue;
+      if (machineValue.every((m) => m.id != null && set.has(m.id)))
+        return machineValue;
     }
 
     const id = this.bestMatch(options, moduleRankIds);

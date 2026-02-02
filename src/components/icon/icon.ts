@@ -33,7 +33,7 @@ const host = cva('relative inline-flex shrink-0', {
   host: { '[class]': 'hostClass()' },
 })
 export class Icon {
-  private readonly settingsStore = inject(SettingsStore);
+  protected readonly settingsStore = inject(SettingsStore);
 
   readonly value = input.required<string | IconDefinition>();
   readonly type = input<IconType>();

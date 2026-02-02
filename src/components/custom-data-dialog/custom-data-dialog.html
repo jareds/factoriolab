@@ -16,7 +16,7 @@
     <div>
       @if (dataFile) {
         {{ dataFile.name }}
-      } @else if (settingsStore.customData()) {
+      } @else if (settingsStore.customData.value()) {
         {{ 'customData.cached' | translate }}
       } @else {
         {{ 'none' | translate }}
@@ -30,7 +30,7 @@
     <div>
       @if (iconsFile) {
         {{ iconsFile.name }}
-      } @else if (settingsStore.customIcons()) {
+      } @else if (settingsStore.customIcons.value()) {
         {{ 'customData.cached' | translate }}
       } @else {
         {{ 'none' | translate }}

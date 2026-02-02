@@ -171,7 +171,7 @@ export class Settings {
   }
 
   setGame(game: Game): void {
-    if (game === 'custom' && !this.settingsStore.customData()) {
+    if (game === 'custom' && !this.settingsStore.customData.value()) {
       this.dialog
         .open<boolean>(CustomDataDialog)
         .closed.pipe(filter((value) => value === true))

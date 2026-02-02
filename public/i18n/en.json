@@ -523,7 +523,8 @@
     "stepUndoTooltip": "Undo modifications to this step",
     "total": "Total",
     "wagonTooltip": "Click to select wagon",
-    "wagonsUndoTooltip": "Undo all wagon modifications"
+    "wagonsUndoTooltip": "Undo all wagon modifications",
+    "rocketsUndoTooltip": "Undo all rocket modifications"
   },
   "technologies": {
     "available": "Available",

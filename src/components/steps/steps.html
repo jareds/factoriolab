@@ -94,8 +94,11 @@
           labSortHeader
           column="rockets"
           [text]="displayRateInfo().rocketsLabel"
+          [showUndo]="itemsStore.itemsModified().rockets"
           [state]="tableStore.state()"
           (stateChange)="tableStore.set($event)"
+          undoTooltip="steps.rocketsUndoTooltip"
+          (undo)="itemsStore.resetFields('wagonId')"
         ></th>
       }
       <!-- Inserters (Value & Icon) -->
@@ -235,17 +238,19 @@
                   ></lab-icon>
                 }
 
-                @let nextId = sortedSteps()[$index + 1]?.id;
-                @if (nextId) {
-                  @let nextTree = objectivesStore.stepTree()[nextId];
-                  @if (nextTree.length > tree.length) {
-                    <span
-                      class="absolute bottom-0 left-2 -z-1 h-4 border-e-2 border-dotted border-gray-100"
-                      [class]="{
-                        'sm:left-4.5': !tree.length,
-                        'sm:left-4': tree.length,
-                      }"
-                    ></span>
+                @if (tableStore.sort() == null) {
+                  @let nextId = sortedSteps()[$index + 1]?.id;
+                  @if (nextId) {
+                    @let nextTree = objectivesStore.stepTree()[nextId];
+                    @if (nextTree.length > tree.length) {
+                      <span
+                        class="absolute bottom-0 left-2 -z-1 h-4 border-e-2 border-dotted border-gray-100"
+                        [class]="{
+                          'sm:left-4.5': !tree.length,
+                          'sm:left-4': tree.length,
+                        }"
+                      ></span>
+                    }
                   }
                 }
               </div>

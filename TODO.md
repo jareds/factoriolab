@@ -6,3 +6,4 @@
   - Include quality entities directly in data file?
   - Remove quality flag, use technologies?
   - Support for modded quality?
+- Tests, tests, tests

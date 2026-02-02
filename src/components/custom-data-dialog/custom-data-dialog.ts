@@ -51,13 +51,7 @@ export class CustomDataDialog implements DialogData {
     }
 
     if (this.iconsFile) {
-      const reader = new FileReader();
-      reader.onload = (ev): void => {
-        const result = ev.target?.result;
-        if (typeof result === 'string')
-          this.settingsStore.customIcons.set(result);
-      };
-      reader.readAsDataURL(this.iconsFile);
+      this.settingsStore.customIcons.set(this.iconsFile);
     }
 
     this.dialogRef.close(true);

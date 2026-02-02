@@ -1,6 +1,6 @@
 import { effect, signal, WritableSignal } from '@angular/core';
 
-type StorageKey = 'data' | 'hash' | 'icons' | 'preferences' | 'router';
+type StorageKey = 'preferences' | 'router';
 
 export function getStoredValue(key: StorageKey): string | undefined {
   return localStorage.getItem(key) ?? undefined;

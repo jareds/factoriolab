@@ -5,7 +5,7 @@
 <div class="font-mono text-sm text-gray-200">{{ info?.message }}</div>
 
 <div class="flex flex-col items-center gap-2">
-  @if (settingsStore.customData()) {
+  @if (settingsStore.customData.value()) {
     <button
       type="button"
       labButton

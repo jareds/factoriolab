@@ -20,7 +20,7 @@
         ></th>
       }
     </tr>
-    @if (items().length > 10) {
+    @if (items().length > 10 || state().filter) {
       <tr>
         <th>
           <div class="relative flex font-medium">

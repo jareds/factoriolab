@@ -54,7 +54,18 @@ export class DetailRow {
   protected readonly inserterId = linkedSignal(() => {
     const data = this.data();
     const value = this.value();
-    if (data.inserterIds.length === 0 || value.items == null) return undefined;
+    /**
+     * Verify data includes inserters, step includes items, and item is not a
+     * fluid
+     */
+    if (
+      data.inserterIds.length === 0 ||
+      value.items == null ||
+      value.itemId == null ||
+      data.itemRecord[value.itemId].stack == null
+    )
+      return undefined;
+
     const factor = this.factor();
     const items = value.items.div(factor);
     const inserterSpeed = this.recipesStore.inserterSpeed();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { effect, Injectable } from '@angular/core';
 
 import { Store } from '../store';
 import { initialTableState, TableState } from './table-state';
@@ -13,6 +13,10 @@ export class TableStore extends Store<TableState> {
 
   constructor() {
     super(initialTableState);
+
+    effect(() => {
+      console.log(this.state());
+    });
   }
 
   setSort(sort: string, defaultAscending = false): void {
