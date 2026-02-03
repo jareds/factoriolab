@@ -677,6 +677,7 @@
         <lab-collection-table
           [ids]="recipes().producedBy"
           iconType="recipe"
+          key="recipeIds"
           [state]="{ page: 0, asc: false, rows: 10 }"
         ></lab-collection-table>
       }
@@ -687,6 +688,7 @@
         <lab-collection-table
           [ids]="recipes().consumedBy"
           iconType="recipe"
+          key="recipeIds"
           [state]="{ page: 0, asc: false, rows: 10 }"
         ></lab-collection-table>
       }
@@ -697,6 +699,7 @@
         <lab-collection-table
           [ids]="recipes().producible"
           iconType="recipe"
+          key="recipeIds"
           [state]="{ page: 0, asc: false, rows: 10 }"
         ></lab-collection-table>
       }
@@ -708,6 +711,7 @@
         <lab-collection-table
           [ids]="unlocked"
           iconType="recipe"
+          key="recipeIds"
           [state]="{ page: 0, asc: false, rows: 10 }"
         ></lab-collection-table>
       }

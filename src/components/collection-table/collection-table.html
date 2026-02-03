@@ -47,7 +47,13 @@
       <tr>
         <td>
           <a
-            [routerLink]="item.id"
+            [routerLink]="[
+              '/',
+              settingsStore.modId(),
+              'data',
+              collectionPath[key()],
+              item.id,
+            ]"
             [queryParams]="resetTableParams"
             queryParamsHandling="merge"
             class="link flex items-center gap-1"
@@ -60,7 +66,13 @@
           <td>
             @if (item.category) {
               <a
-                [routerLink]="['../categories', item.category.id]"
+                [routerLink]="[
+                  '/',
+                  settingsStore.modId(),
+                  'data',
+                  'categories',
+                  item.category.id,
+                ]"
                 [queryParams]="resetTableParams"
                 queryParamsHandling="merge"
                 class="link flex items-center gap-1"

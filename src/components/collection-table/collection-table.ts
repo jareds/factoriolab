@@ -24,6 +24,7 @@ import { Paginator } from '../paginator/paginator';
 import { PaginatorPipe } from '../paginator/paginator-pipe';
 import { SortHeader } from '../sort-header/sort-header';
 import { CollectionItem } from './collection-item';
+import { CollectionKey } from './collection-key';
 
 type RecordKey =
   | 'categoryRecord'
@@ -56,12 +57,30 @@ export class CollectionTable {
   protected readonly settingsStore = inject(SettingsStore);
 
   readonly ids = input.required<string[]>();
+  readonly key = input.required<CollectionKey>();
   readonly iconType = input.required<IconType>();
   readonly state = model(initialTableState);
 
   protected readonly faMagnifyingGlass = faMagnifyingGlass;
   protected readonly resetTableParams = resetTableParams;
   protected readonly updateApply = updateApply;
+
+  protected readonly collectionPath: Record<CollectionKey, string> = {
+    categoryIds: 'categories',
+    itemIds: 'items',
+    beaconIds: 'beacons',
+    beltIds: 'belts',
+    cargoWagonIds: 'cargo-wagons',
+    fluidWagonIds: 'fluid-wagons',
+    fuelIds: 'fuels',
+    machineIds: 'machines',
+    moduleIds: 'modules',
+    pipeIds: 'pipes',
+    technologyIds: 'technologies',
+    inserterIds: 'inserters',
+    recipeIds: 'recipes',
+    locationIds: 'locations',
+  };
 
   protected readonly hasCategory = computed(() => {
     const type = this.iconType();

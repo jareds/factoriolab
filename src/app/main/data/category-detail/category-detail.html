@@ -4,6 +4,7 @@
     <lab-collection-table
       [ids]="itemIds()"
       iconType="item"
+      key="itemIds"
       [state]="{ page: 0, asc: false, rows: 10 }"
     ></lab-collection-table>
     <h3 class="my-3 text-lg font-semibold">
@@ -12,6 +13,7 @@
     <lab-collection-table
       [ids]="recipeIds()"
       iconType="recipe"
+      key="recipeIds"
       [state]="{ page: 0, asc: false, rows: 10 }"
     ></lab-collection-table>
   </ng-content>
