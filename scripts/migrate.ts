@@ -38,13 +38,13 @@ function updateMods(mods: string[]): void {
     fs.writeFileSync(modDataPath, JSON.stringify(modData));
 
     logTime(
-      `Updated mod '${mod}' (${(i + 1).toString()} of ${mods.length.toString()})`,
+      `Migrated mod '${mod}' (${(i + 1).toString()} of ${mods.length.toString()})`,
     );
   }
 }
 
 logTime(
-  `Starting update for ${mods.length.toString()} mod${mods.length > 1 ? 's' : ''}...`,
+  `Starting migration for ${mods.length.toString()} mod${mods.length > 1 ? 's' : ''}...`,
 );
 
 updateMods(mods);
