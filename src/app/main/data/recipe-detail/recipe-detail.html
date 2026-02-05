@@ -196,6 +196,12 @@
           <td>{{ obj.usage | usage }}</td>
         </tr>
       }
+      @if (obj.flags) {
+        <tr>
+          <th>{{ 'data.flags' | translate }}</th>
+          <td>{{ obj.flags | join }}</td>
+        </tr>
+      }
       @if (recipeSettings(); as recipeSettings) {
         <tr>
           <th colspan="2">

@@ -14,6 +14,7 @@ import { updateSetIds } from '~/utils/set';
 
 import { Detail } from '../detail/detail';
 import { DetailBase } from '../detail-base';
+import { JoinPipe } from './join-pipe';
 
 @Component({
   selector: 'lab-recipe-detail',
@@ -27,6 +28,7 @@ import { DetailBase } from '../detail-base';
     TranslatePipe,
     UsagePipe,
     Detail,
+    JoinPipe,
   ],
   templateUrl: './recipe-detail.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

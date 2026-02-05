@@ -87,6 +87,7 @@
     "energyDrain": "Energy drain",
     "energySource": "Energy source",
     "excluded": "Excluded",
+    "flags": "Flags",
     "flowRate": "Flow rate",
     "fluidCapacity": "Fluid capacity",
     "fluidWagon": "Fluid wagon",
