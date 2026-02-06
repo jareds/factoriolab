@@ -25,7 +25,7 @@ export interface OptionParams {
 
 export function getIdOptions(
   ids: string[],
-  record: Record<string, { name: string }>,
+  record: Record<string, { name: string; icon?: string }>,
   params?: OptionParams,
 ): Option[] {
   const { iconType, tooltipType, include, exclude, emptyModule, empty } = {
@@ -61,7 +61,7 @@ export function getIdOptions(
     list.unshift({
       label: 'none',
       value: '',
-      icon: ids[0],
+      icon: record[ids[0]]?.icon ?? ids[0],
       iconClass: 'opacity-40 grayscale',
     });
 

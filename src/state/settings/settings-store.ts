@@ -1020,13 +1020,10 @@ export class SettingsStore extends Store<SettingsState> {
     );
     const availableRecipeIds = new Set(availableRecipes.map((r) => r.id));
 
-    function pickItemId(
-      itemId: string | undefined,
-      defaultId: string | undefined,
-    ): string | undefined {
+    function pickItemId(itemId: string | undefined, defaultId: string): string {
       itemId = coalesce(itemId, defaultId);
       if (itemId === '') return itemId;
-      if (!itemId || !availableItemIds.has(itemId)) return undefined;
+      if (!itemId || !availableItemIds.has(itemId)) return '';
       return itemId;
     }
 
@@ -1038,13 +1035,13 @@ export class SettingsStore extends Store<SettingsState> {
       return itemIds.filter((i) => availableItemIds.has(i));
     }
 
-    const defaultBeltId = defaults?.beltId;
+    const defaultBeltId = coalesce(defaults?.beltId, '');
     const beltId = pickItemId(state.beltId, defaultBeltId);
-    const defaultPipeId = defaults?.pipeId;
+    const defaultPipeId = coalesce(defaults?.pipeId, '');
     const pipeId = pickItemId(state.pipeId, defaultPipeId);
-    const defaultCargoWagonId = defaults?.cargoWagonId;
+    const defaultCargoWagonId = coalesce(defaults?.cargoWagonId, '');
     const cargoWagonId = pickItemId(state.cargoWagonId, defaultCargoWagonId);
-    const defaultFluidWagonId = defaults?.fluidWagonId;
+    const defaultFluidWagonId = coalesce(defaults?.fluidWagonId, '');
     const fluidWagonId = pickItemId(state.fluidWagonId, defaultFluidWagonId);
     const defaultMachineRankIds = coalesce(defaults?.machineRankIds, []);
     const machineRankIds = pickItemIds(

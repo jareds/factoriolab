@@ -37,7 +37,11 @@ export class ItemsStore extends RecordStore<ItemState> {
     const value: Record<string, ItemSettings> = {};
     for (const item of data.itemIds.map((i) => data.itemRecord[i])) {
       const s = state[item.id];
-      const defaultBeltId = this.defaultBelt(item, settings);
+      const defaultBeltId = this.defaultBelt(
+        item,
+        settings,
+        data.pipeIds.length,
+      );
       const defaultStack = this.defaultStack(item, settings);
       const defaultWagonId = this.defaultWagon(item, settings);
       const beltId = coalesce(s?.beltId, defaultBeltId);
@@ -59,10 +63,11 @@ export class ItemsStore extends RecordStore<ItemState> {
     return value;
   }
 
-  defaultBelt(item: Item, settings: Settings): string | undefined {
-    if (item.stack) return settings.beltId;
+  defaultBelt(item: Item, settings: Settings, pipeCount: number): string {
+    if (item.stack) return coalesce(settings.beltId, '');
     else if (settings.pipeId != null) return settings.pipeId;
-    else return PIPE;
+    else if (pipeCount === 0) return PIPE;
+    return '';
   }
 
   defaultStack(item: Item, settings: Settings): Rational {
@@ -70,7 +75,10 @@ export class ItemsStore extends RecordStore<ItemState> {
     return item.stack.lt(settings.stack) ? item.stack : settings.stack;
   }
 
-  defaultWagon(item: Item, settings: Settings): string | undefined {
-    return item.stack ? settings.cargoWagonId : settings.fluidWagonId;
+  defaultWagon(item: Item, settings: Settings): string {
+    return coalesce(
+      item.stack ? settings.cargoWagonId : settings.fluidWagonId,
+      '',
+    );
   }
 }

@@ -16,3 +16,9 @@
   - Maximum productivity
   - Emissions multiplier
   - Allowed module categories
+- Technology supported properties
+  - Beacon distribution effects
+  - Unlock space location effects
+  - Unlock space platforms effects
+- Machine supported properties
+  - Mining machine resource drain percent
