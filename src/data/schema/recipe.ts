@@ -20,7 +20,7 @@ export interface RecipeJson {
   category: string;
   row: number;
   time: number | string;
-  producers: string[];
+  producers?: string[];
   in: Record<string, number | string>;
   out: Record<string, number | string>;
   /** Denotes amount of output that is not affected by productivity */
@@ -45,7 +45,7 @@ export interface Recipe {
   category: string;
   row: number;
   time: Rational;
-  producers: string[];
+  producers?: string[];
   in: Record<string, Rational>;
   out: Record<string, Rational>;
   /** Denotes amount of output that is not affected by productivity */

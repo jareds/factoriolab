@@ -8,6 +8,12 @@
   - Support for modded quality?
 - Tests, tests, tests
 
+## DATA CHANGES
+
+- Icons (complete?)
+- Quality calculations
+- hideProducer => no producers on recipe?
+
 ## LATER
 
 - Ability to pin objectives panel
@@ -22,3 +28,5 @@
   - Unlock space platforms effects
 - Machine supported properties
   - Mining machine resource drain percent
+- Burn recipes should be superseded by allowing specifying ACTUAL machines with no recipe as an objective, recipes with zero input/output are silly
+- Bitwise flags?

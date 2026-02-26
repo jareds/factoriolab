@@ -28,6 +28,7 @@ export class Options {
   }
 
   machineOptions(recipe: Recipe, settings: Settings, data: Dataset): Option[] {
+    if (recipe.producers == null) return [];
     let machineIds = recipe.producers.filter(
       (p) =>
         settings.availableItemIds.has(p) &&

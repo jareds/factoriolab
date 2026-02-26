@@ -508,8 +508,8 @@
         </tr>
         <tr>
           <th>{{ 'data.belt' | translate }}</th>
-          @if (itemSettings.beltId; as beltId) {
-            <td>
+          <td>
+            @if (itemSettings.beltId; as beltId) {
               <div class="flex justify-end">
                 <a
                   [routerLink]="['../../items', beltId]"
@@ -522,14 +522,16 @@
                 >
                 </a>
               </div>
-            </td>
-          }
+            } @else {
+              {{ 'none' | translate }}
+            }
+          </td>
         </tr>
-        @if (itemSettings.wagonId; as wagonId) {
-          <tr>
-            @if (obj.stack) {
-              <th>{{ 'data.cargoWagon' | translate }}</th>
-              <td>
+        <tr>
+          @if (obj.stack) {
+            <th>{{ 'data.cargoWagon' | translate }}</th>
+            <td>
+              @if (itemSettings.wagonId; as wagonId) {
                 <div class="flex justify-end">
                   <a
                     [routerLink]="['../../cargo-wagons/', wagonId]"
@@ -542,10 +544,14 @@
                   >
                   </a>
                 </div>
-              </td>
-            } @else {
-              <th>{{ 'data.fluidWagon' | translate }}</th>
-              <td>
+              } @else {
+                {{ 'none' | translate }}
+              }
+            </td>
+          } @else {
+            <th>{{ 'data.fluidWagon' | translate }}</th>
+            <td>
+              @if (itemSettings.wagonId; as wagonId) {
                 <div class="flex justify-end">
                   <a
                     [routerLink]="['../../fluid-wagons/', wagonId]"
@@ -558,10 +564,12 @@
                   >
                   </a>
                 </div>
-              </td>
-            }
-          </tr>
-        }
+              } @else {
+                {{ 'none' | translate }}
+              }
+            </td>
+          }
+        </tr>
       }
       @if (obj.machine && machineSettings(); as machineSettings) {
         <tr>

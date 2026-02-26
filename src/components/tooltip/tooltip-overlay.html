@@ -8,8 +8,12 @@
           @if (!value.eq(rational.one)) {
             <tr
               [class.text-orange-500]="
-                data().flags.has('minimumFactor') &&
-                value.eq(adjustment.minFactor)
+                (data().flags.has('minimumFactor') &&
+                  value.eq(adjustment.minFactor)) ||
+                (data().flags.has('maximumFactor') &&
+                  !recipe.flags.has('mining') &&
+                  !recipe.flags.has('technology') &&
+                  value.eq(adjustment.maxFactor))
               "
             >
               <td>{{ label | translate }}</td>

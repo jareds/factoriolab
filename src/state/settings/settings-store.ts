@@ -567,9 +567,11 @@ export class SettingsStore extends Store<SettingsState> {
         Quality.Legendary,
       ];
       recipes.forEach((r) => {
+        const producers = r.producers;
+        if (producers == null) return;
         r.producers = [
-          ...r.producers,
-          ...qualities.flatMap((q) => r.producers.map((p) => qualityId(p, q))),
+          ...producers,
+          ...qualities.flatMap((q) => producers.map((p) => qualityId(p, q))),
         ];
       });
       const itemsLen = items.length;
@@ -704,6 +706,7 @@ export class SettingsStore extends Store<SettingsState> {
       .map((i) => i.id);
     const machineIds = items
       .filter(fnPropsNotNullish('machine'))
+      .sort((a, b) => a.name.localeCompare(b.name))
       .map((i) => i.id);
     const modules = items.filter(fnPropsNotNullish('module'));
     const moduleIds = modules.map((i) => i.id);
@@ -1011,12 +1014,15 @@ export class SettingsStore extends Store<SettingsState> {
     const availableRecipes = unlockedRecipes.filter(
       (r) =>
         (r.locations == null || r.locations.some((l) => locationIds.has(l))) &&
-        r.producers.some(
-          (p) =>
-            availableItemIds.has(p) &&
-            (data.machineRecord[p].locations == null ||
-              data.machineRecord[p].locations.some((l) => locationIds.has(l))),
-        ),
+        (r.producers == null ||
+          r.producers.some(
+            (p) =>
+              availableItemIds.has(p) &&
+              (data.machineRecord[p].locations == null ||
+                data.machineRecord[p].locations.some((l) =>
+                  locationIds.has(l),
+                )),
+          )),
     );
     const availableRecipeIds = new Set(availableRecipes.map((r) => r.id));
 

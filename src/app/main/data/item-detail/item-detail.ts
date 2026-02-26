@@ -82,7 +82,7 @@ export class ItemDetail extends DetailBase<Item> {
       const recipe = data.recipeRecord[r];
       if (recipe.out[id]) producedBy.push(r);
       if (recipe.in[id]) consumedBy.push(r);
-      if (recipe.producers.includes(id)) producible.push(r);
+      if (recipe.producers?.includes(id)) producible.push(r);
     }
     return { producedBy, consumedBy, producible, unlocked };
   });

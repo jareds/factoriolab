@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { EnergyType } from '~/data/schema/energy-type';
 import { AdjustedInserter } from '~/data/schema/inserter';
-import { Machine } from '~/data/schema/machine';
+import { DEFAULT_MACHINE, Machine } from '~/data/schema/machine';
 import {
   effectPrecision,
   effects,
@@ -285,7 +285,11 @@ export class Adjustment {
         if (eff.pollution.lt(this.minFactor)) eff.pollution = this.minFactor;
       }
 
-      if (data.flags.has('maximumFactor') && !recipe.flags.has('mining')) {
+      if (
+        data.flags.has('maximumFactor') &&
+        !recipe.flags.has('mining') &&
+        !recipe.flags.has('technology')
+      ) {
         // Check for productivity over maximum value (300%)
         if (eff.productivity.gt(this.maxFactor))
           eff.productivity = this.maxFactor;
@@ -647,6 +651,7 @@ export class Adjustment {
     Object.values(adjustedRecipe).forEach((recipe) => {
       finalizeRecipe(recipe);
       Object.keys(recipe.out).forEach((productId) => {
+        if (itemRecipeIds[productId] == null) console.log(productId);
         itemRecipeIds[productId].push(recipe.id);
       });
 
@@ -765,7 +770,7 @@ export class Adjustment {
     );
     s.machineId = coalesce(s.machineId, s.defaultMachineId);
 
-    const machine = data.machineRecord[s.machineId];
+    const machine = data.machineRecord[s.machineId] ?? DEFAULT_MACHINE;
     const def = machines[s.machineId];
 
     if (recipe.flags.has('burn')) {
