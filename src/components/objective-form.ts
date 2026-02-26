@@ -19,10 +19,6 @@ export abstract class ObjectiveForm {
   readonly unit = signal(ObjectiveUnit.Items);
   readonly type = signal(ObjectiveType.Output);
   readonly isRecipe = computed(() => this.unit() === ObjectiveUnit.Machines);
-  protected readonly step = computed(() => {
-    if (this.unit() !== ObjectiveUnit.Items) return rational.one;
-    return this.displayRateInfo().step;
-  });
 
   openPicker(): void {
     const targetId = this.isRecipe()

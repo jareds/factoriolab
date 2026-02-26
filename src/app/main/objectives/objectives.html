@@ -87,11 +87,6 @@
                 labelledBy="quantity-label"
                 rounded="none"
                 [buttons]="true"
-                [step]="
-                  objective.unit === ObjectiveUnit.Items
-                    ? displayRateInfo().step
-                    : rational.one
-                "
                 [ngModel]="objective.value"
                 (ngModelChange)="
                   objectivesStore.updateRecord(objective.id, { value: $event })
@@ -159,7 +154,6 @@
         labelledBy="quantity-label"
         rounded="none"
         [buttons]="true"
-        [step]="step()"
         [(ngModel)]="value"
       ></lab-input-number>
       <lab-select
@@ -192,7 +186,7 @@
       ></button>
     </div>
   </div>
-  <div class="hidden items-end lg:flex">
+  <div class="flex items-end">
     <lab-form-field label="objectives.displayRate">
       <lab-select
         [options]="displayRateOptions"

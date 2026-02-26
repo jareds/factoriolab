@@ -11,7 +11,7 @@
 
 <hr class="self-stretch border-t border-gray-600" />
 
-<div class="flex w-xs grow basis-[30rem] flex-col gap-3">
+<div class="flex w-xs grow basis-120 flex-col gap-3">
   <lab-form-field label="game">
     <lab-select
       [options]="gameOptions"
@@ -34,7 +34,6 @@
       <lab-form-field label="objectives.quantity" class="basis-1/2">
         <lab-input-number
           [buttons]="true"
-          [step]="step()"
           [(ngModel)]="value"
         ></lab-input-number>
       </lab-form-field>
