@@ -96,9 +96,9 @@ export class BeaconsSelect extends Control<BeaconSettings[]> {
     );
   }
 
-  setModules(j: number, modules: ModuleSettings[]): void {
+  setModules(i: number, modules: ModuleSettings[]): void {
     this.editValue.update((values) =>
-      values.map((v, j) => (j === j ? spread(v, { modules }) : v)),
+      values.map((v, j) => (i === j ? spread(v, { modules }) : v)),
     );
   }
 
