@@ -684,29 +684,50 @@ export class SettingsStore extends Store<SettingsState> {
     // Filter for item types
     const beaconIds = items
       .filter(fnPropsNotNullish('beacon'))
-      .sort((a, b) => a.beacon.modules.sub(b.beacon.modules).toNumber())
+      .sort(
+        (a, b) =>
+          (a.quality ?? 0) - (b.quality ?? 0) ||
+          a.beacon.modules.sub(b.beacon.modules).toNumber(),
+      )
       .map((i) => i.id);
     const beltIds = items
       .filter(fnPropsNotNullish('belt'))
-      .sort((a, b) => a.belt.speed.sub(b.belt.speed).toNumber())
+      .sort(
+        (a, b) =>
+          (a.quality ?? 0) - (b.quality ?? 0) ||
+          a.belt.speed.sub(b.belt.speed).toNumber(),
+      )
       .map((i) => i.id);
     const pipeIds = items
       .filter(fnPropsNotNullish('pipe'))
-      .sort((a, b) => a.pipe.speed.sub(b.pipe.speed).toNumber())
+      .sort(
+        (a, b) =>
+          (a.quality ?? 0) - (b.quality ?? 0) ||
+          a.pipe.speed.sub(b.pipe.speed).toNumber(),
+      )
       .map((i) => i.id);
     const cargoWagonIds = items
       .filter(fnPropsNotNullish('cargoWagon'))
-      .sort((a, b) => a.cargoWagon.size.sub(b.cargoWagon.size).toNumber())
+      .sort(
+        (a, b) =>
+          (a.quality ?? 0) - (b.quality ?? 0) ||
+          a.cargoWagon.size.sub(b.cargoWagon.size).toNumber(),
+      )
       .map((i) => i.id);
     const fluidWagonIds = items
       .filter(fnPropsNotNullish('fluidWagon'))
-      .sort((a, b) =>
-        a.fluidWagon.capacity.sub(b.fluidWagon.capacity).toNumber(),
+      .sort(
+        (a, b) =>
+          (a.quality ?? 0) - (b.quality ?? 0) ||
+          a.fluidWagon.capacity.sub(b.fluidWagon.capacity).toNumber(),
       )
       .map((i) => i.id);
     const machineIds = items
       .filter(fnPropsNotNullish('machine'))
-      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort(
+        (a, b) =>
+          (a.quality ?? 0) - (b.quality ?? 0) || a.name.localeCompare(b.name),
+      )
       .map((i) => i.id);
     const modules = items.filter(fnPropsNotNullish('module'));
     const moduleIds = modules.map((i) => i.id);
@@ -715,7 +736,11 @@ export class SettingsStore extends Store<SettingsState> {
       .map((i) => i.id);
     const fuels = items
       .filter(fnPropsNotNullish('fuel'))
-      .sort((a, b) => a.fuel.value.sub(b.fuel.value).toNumber());
+      .sort(
+        (a, b) =>
+          (a.quality ?? 0) - (b.quality ?? 0) ||
+          a.fuel.value.sub(b.fuel.value).toNumber(),
+      );
     const fuelIds = fuels.map((i) => i.id);
     const technologyIds = items
       .filter(fnPropsNotNullish('technology'))
