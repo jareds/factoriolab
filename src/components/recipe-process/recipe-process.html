@@ -19,7 +19,7 @@
 </div>
 
 <div class="flex flex-wrap justify-between gap-2">
-  @if (!r.flags.has('hideProducer')) {
+  @if (r.producers?.length && !r.flags.has('hideProducer')) {
     <div>
       <div class="mt-1 text-sm">{{ 'data.producers' | translate }}</div>
       <div>
